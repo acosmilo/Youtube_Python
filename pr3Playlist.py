@@ -19,29 +19,27 @@ p = pytube.Playlist(link)
 #titulo=yt.title
 os.mkdir(path+'\Musica')
 
+
+
+#Definiendo funciones de remplazo de titulos
+
+def ReplaceChars(arg):
+    specialChars=[" ","\"","\'","/","(", ")","[","]",".",",",":","/","*","|","#"]
+    largo=len(specialChars)
+    for i in range(0,largo):
+        arg=arg.replace(specialChars[i], "_")
+    return arg
+
+
 i=1
-
-
 for video in p.videos:
      
     
     try:
         name=str(i) 
-        titulo=video.title
-        titulo=titulo.replace(" ", "_")
-        titulo=titulo.replace("\"", "_")
-        titulo=titulo.replace("\'", "_")
-        titulo=titulo.replace("/", "_")
-        titulo=titulo.replace("(", "_")
-        titulo=titulo.replace(")", "_")
-        titulo=titulo.replace("[", "_")
-        titulo=titulo.replace("]", "_")
-        titulo=titulo.replace(".", "_")
-        titulo=titulo.replace(",", "_")
-        titulo=titulo.replace(":", "_")
-        titulo=titulo.replace("/", "_")
-        titulo=titulo.replace("*", "_")
-        titulo=titulo.replace("|", "_")
+        titulo=ReplaceChars(video.title)
+
+        
         #name=titulo[0:5]
         video.streams.first().download('Video','Clip_'+name)
         #print(titu)
