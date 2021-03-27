@@ -5,23 +5,21 @@ import moviepy.editor as mp
 import os
 import time
 
+#Esto es para tener la ruta de trabajo como string
 filePath = __file__
 absFilePath = os.path.abspath(filePath)
 path, filename = os.path.split(absFilePath)
 
+#Esto es un string que devuelve la hora y fecha, sirve para nombrar carpetas
 date=(time.strftime("%H-%M-%S-%d-%m-%y"))
 
-
+#Esto pide al usuario el link de la lista de reproduccion
 link=input("Pega el link de la lista de reproduccion: ")
-#yt = YouTube(link)
+
+#Se crea una lista usando pytube
 p = pytube.Playlist(link)
 
-#audio=yt.streams.filter(file_extension='mp4',only_audio=True).first()
-#audio=yt.streams.get_audio_only()
-
-#audio=yt.streams.first()
-#titulo=yt.title
-
+#Se crea las carpetas de musica y video
 os.mkdir(path+'\Musica'+date)
 os.mkdir(path+'\Video'+date)
 
@@ -29,18 +27,19 @@ os.mkdir(path+'\Video'+date)
 #Definiendo funciones de remplazo de titulos
 
 def ReplaceChars(arg):
+    #Esta es la lista de caracteres que seran cambiadas por rayas bajas
     specialChars=[" ","\"","\'","/","(", ")","[","]",".",",",":","/","*","|","#"]
     largo=len(specialChars)
     for i in range(0,largo):
         arg=arg.replace(specialChars[i], "_")
     return arg
 
-
+# Variable que enumera los clips
 i=1
+
 for video in p.videos:
-     
-    
     try:
+        #Se transforma el numero i a string
         name=str(i) 
         titulo=ReplaceChars(video.title)
 
