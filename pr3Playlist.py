@@ -1,11 +1,15 @@
 import urllib
-import pytube 
+#from pytube import Playlist
+import pytube
 import moviepy.editor as mp
 import os
+import time
 
 filePath = __file__
 absFilePath = os.path.abspath(filePath)
 path, filename = os.path.split(absFilePath)
+
+date=(time.strftime("%H-%M-%S-%d-%m-%y"))
 
 
 link=input("Pega el link de la lista de reproduccion: ")
@@ -17,8 +21,9 @@ p = pytube.Playlist(link)
 
 #audio=yt.streams.first()
 #titulo=yt.title
-os.mkdir(path+'\Musica')
 
+os.mkdir(path+'\Musica'+date)
+os.mkdir(path+'\Video'+date)
 
 
 #Definiendo funciones de remplazo de titulos
@@ -41,7 +46,7 @@ for video in p.videos:
 
         
         #name=titulo[0:5]
-        video.streams.first().download('Video','Clip_'+name)
+        video.streams.first().download('Video'+date,'Clip_'+name)
         #print(titu)
         
     except (pytube.exceptions.VideoUnavailable, urllib.error.HTTPError, KeyError):
@@ -49,11 +54,11 @@ for video in p.videos:
         continue
     
     
-    musica=mp.VideoFileClip(path+'\Video\Clip_'+ name +'.mp4')
+    musica=mp.VideoFileClip(path+'\Video'+date+'\Clip_'+ name +'.mp4')
     #os.chdir(path)
-    musica.audio.write_audiofile('Musica/Audio_'+ name +'.mp3')
+    musica.audio.write_audiofile('Musica'+date+'\Audio_'+ name +'.mp3')
 
-    os.rename(path+'/Musica/Audio_'+ name +'.mp3',path+'/Musica/'+ titulo + name+'.mp3' )
+    os.rename(path+'\Musica'+date+'\Audio_'+ name +'.mp3',path+'\Musica'+date+'/'+ titulo + name+'.mp3' )
     i=i+1
 #audio.download('Musica','Audio_'+titulo)
 #print(audio)
