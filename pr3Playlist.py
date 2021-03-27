@@ -8,7 +8,7 @@ absFilePath = os.path.abspath(filePath)
 path, filename = os.path.split(absFilePath)
 
 
-link=input("Pega el link del video: ")
+link=input("Pega el link de la lista de reproduccion: ")
 #yt = YouTube(link)
 p = pytube.Playlist(link)
 
@@ -20,22 +20,27 @@ p = pytube.Playlist(link)
 os.mkdir(path+'\Musica')
 
 i=1
+
+
 for video in p.videos:
+     
     
     try:
+        name=str(i) 
         titulo=video.title
-        
-        video.streams.first().download('Video','Clip_'+str(i))
+        titulo=titulo.replace(" ", "_")
+        #name=titulo[0:5]
+        video.streams.first().download('Video','Clip_'+name)
         #print(titu)
         
-    except (pytube.exceptions.VideoUnavailable, urllib.error.HTTPError):
-        print('No hay video'+titulo)
+    except (pytube.exceptions.VideoUnavailable, urllib.error.HTTPError, KeyError):
+        print('No hay video: '+titulo)
         continue
     
     
-    musica=mp.VideoFileClip(path+'\Video\Clip_'+str(i)+'.mp4')
+    musica=mp.VideoFileClip(path+'\Video\Clip_'+ name +'.mp4')
     os.chdir(path)
-    musica.audio.write_audiofile('Musica/Audio_'+str(i)+'.mp3')
+    musica.audio.write_audiofile('Musica/Audio_'+ name +'.mp3')
     i=i+1
 #audio.download('Musica','Audio_'+titulo)
 #print(audio)
