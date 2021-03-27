@@ -50,7 +50,7 @@ for video in p.videos:
     
     
     musica=mp.VideoFileClip(path+'\Video\Clip_'+ name +'.mp4')
-    os.chdir(path)
+    #os.chdir(path)
     musica.audio.write_audiofile('Musica/Audio_'+ name +'.mp3')
 
     os.rename(path+'/Musica/Audio_'+ name +'.mp3',path+'/Musica/'+ titulo + name+'.mp3' )
